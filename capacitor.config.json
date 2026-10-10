@@ -1,6 +1,6 @@
 {
-  "appId": "com.alkahli.aawad",
-  "appName": "Awad",
+  "appId": "com.alkahli.aawa",
+  "appName": "Awaت",
   "webDir": "www",
   "plugins": {
     "CapacitorHttp": {
