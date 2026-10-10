@@ -1,127 +1,174 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+import tkinter as tk
+from tkinter import scrolledtext, messagebox, ttk
+import subprocess
+import threading
+import os
 
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+class KaliRealExecutionCenter:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Kali Linux Real-Execution Hub 🔥")
+        self.root.geometry("720x840")
+        self.root.configure(bg="#08090c")
 
-        .login-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+        # تصميم الواجهة العصرية الداكنة
+        style = ttk.Style()
+        style.theme_use('clam')
+        style.configure('TNotebook', background='#08090c', borderwidth=0)
+        style.configure('TNotebook.Tab', background='#12151e', foreground='#ffffff', font=('Helvetica', 9, 'bold'), padding=[14, 8])
+        style.map('TNotebook.Tab', background=[('selected', '#e60000')], foreground=[('selected', '#ffffff')])
 
-        .login-container h2 {
-            margin-bottom: 24px;
-            color: #333333;
-            font-size: 24px;
-        }
+        # عنوان المنصة الفعلية
+        title_frame = tk.Frame(root, bg="#0d0f17", height=50)
+        title_frame.pack(fill="x", padx=10, pady=8)
+        
+        lbl_title = tk.Label(title_frame, text="⚡ KALI LINUX REAL-EXECUTION OPERATIONS ⚡", font=("Helvetica", 11, "bold"), fg="#ff2222", bg="#0d0f17")
+        lbl_title.pack(pady=10)
 
-        .input-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
+        # التبويبات الرئيسية
+        self.notebook = ttk.Notebook(root)
+        self.notebook.pack(fill="both", expand=True, padx=10, pady=5)
 
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555555;
-            font-size: 14px;
-        }
+        self.tab_tools = tk.Frame(self.notebook, bg="#08090c")
+        self.notebook.add(self.tab_tools, text="  🛠️ قائمة الأدوات الفعالة  ")
 
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cccccc;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
+        self.tab_attack = tk.Frame(self.notebook, bg="#08090c")
+        self.notebook.add(self.tab_attack, text="  🔥 منصة التنفيذ الميداني  ")
 
-        .input-group input:focus {
-            border-color: #667eea;
-            outline: none;
-        }
+        self.setup_tools_tab()
+        self.setup_attack_tab()
 
-        .login-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
+        # سجل النتائج الحية والمباشرة من نظام التشغيل
+        log_frame = tk.Frame(root, bg="#08090c")
+        log_frame.pack(fill="both", expand=True, padx=10, pady=5)
 
-        .login-btn:hover {
-            opacity: 0.9;
-        }
+        lbl_log = tk.Label(log_frame, text="مخرجات التنفيذ الفعلي المباشر (Real System Terminal Output):", font=("Helvetica", 9, "bold"), fg="#00ffcc", bg="#08090c")
+        lbl_log.pack(anchor="w", pady=2)
 
-        #welcome-message {
-            margin-top: 20px;
-            color: #2ecc71;
-            font-size: 16px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
+        self.log_area = scrolledtext.ScrolledText(log_frame, wrap=tk.WORD, font=("Courier", 8), bg="#030406", fg="#00ff66", insertbackground="white")
+        self.log_area.pack(fill="both", expand=True, pady=2)
 
-    <div class="login-container">
-        <h2>تسجيل الدخول</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="username">الاسم</label>
-                <input type="text" id="username" placeholder="أدخل اسمك الكامل" required>
-            </div>
+    def setup_tools_tab(self):
+        lbl_info = tk.Label(self.tab_tools, text="الأدوات الحقيقية المثبتة والجاهزة للتنفيذ الميداني:", font=("Helvetica", 9, "bold"), fg="#ffffff", bg="#08090c")
+        lbl_info.pack(anchor="w", padx=15, pady=10)
+
+        tools = [
+            ("Nmap (فحص الشبكات الحي)", "ينفذ فحصاً فعلياً للمنافذ المفتوحة والخدمات عبر الشبكة الحقيقية."),
+            ("SQLmap (فحقن الثغرات الفعلية)", "يختبر ويحقن قواعد بيانات الويب المستهدفة بشكل حقيقي بالكامل."),
+            ("Metasploit (محطة التحكم والاستغلال)", "يشغل وحدات الاستغلال والاتصال العكسي الفعلي."),
+            ("Aircrack-ng (تدقيق اللاسلكي)", "يخترق ويفحص حزم الشبكات اللاسلكية المتاحة في المدى.")
+        ]
+
+        for name, desc in tools:
+            f = tk.Frame(self.tab_tools, bg="#11141f", bd=1)
+            f.pack(fill="x", padx=15, pady=4)
+            tk.Label(f, text=name, font=("Helvetica", 9, "bold"), fg="#ff8800", bg="#11141f").pack(anchor="w", padx=10, pady=(6, 2))
+            tk.Label(f, text=desc, font=("Helvetica", 8), fg="#aaaaaa", bg="#11141f").pack(anchor="w", padx=10, pady=(0, 6))
+
+    def setup_attack_tab(self):
+        lbl_select = tk.Label(self.tab_attack, text="اختر الأداة لتوليد واجهة الإدخال والتنفيذ الفعلي:", font=("Helvetica", 9, "bold"), fg="#ffffff", bg="#08090c")
+        lbl_select.pack(anchor="w", padx=15, pady=8)
+
+        self.tool_var = tk.StringVar()
+        self.dropdown = ttk.Combobox(self.tab_attack, textvariable=self.tool_var, state="readonly", font=("Helvetica", 10))
+        self.dropdown['values'] = ("Nmap Real Scanner", "SQLmap Real Injector", "Metasploit Real Handler", "Aircrack-ng Real Utility")
+        self.dropdown.pack(fill="x", padx=15, pady=5)
+        self.dropdown.current(0)
+        self.dropdown.bind("<<ComboboxSelected>>", self.refresh_dynamic_inputs)
+
+        # الإطار الديناميكي المتغير حسب الأداة
+        self.dyn_frame = tk.Frame(self.tab_attack, bg="#0e111a", bd=1)
+        self.dyn_frame.pack(fill="x", padx=15, pady=10)
+
+        # زر تنفيذ الهجوم الحقيقي الميداني
+        self.btn_exec = tk.Button(self.tab_attack, text="[⚡] تنفيذ الهجوم الفعلي في نظام التشغيل (Execute Real Strike)", font=("Helvetica", 10, "bold"), bg="#cc0000", fg="#ffffff", command=self.run_real_command_thread)
+        self.btn_exec.pack(fill="x", padx=15, pady=10)
+
+        self.build_inputs("Nmap Real Scanner")
+
+    def refresh_dynamic_inputs(self, event):
+        tool = self.tool_var.get()
+        for w in self.dyn_frame.winfo_children():
+            w.destroy()
+        self.build_inputs(tool)
+
+    def build_inputs(self, tool):
+        if "Nmap" in tool:
+            tk.Label(self.dyn_frame, text="أدخل عنوان الهدف أو الـ IP الفعلي للفحص:", font=("Helvetica", 8, "bold"), fg="#00ffcc", bg="#0e111a").pack(anchor="w", padx=10, pady=5)
+            self.target_entry = tk.Entry(self.dyn_frame, font=("Courier", 10), bg="#181c29", fg="#ffffff", insertbackground="white")
+            self.target_entry.pack(fill="x", padx=10, pady=5)
+            self.target_entry.insert(0, "127.0.0.1")
+        elif "SQLmap" in tool:
+            tk.Label(self.dyn_frame, text="أدخل رابط الويب المستهدف (يحتوي على ثغرة محتملة):", font=("Helvetica", 8, "bold"), fg="#00ffcc", bg="#0e111a").pack(anchor="w", padx=10, pady=5)
+            self.target_entry = tk.Entry(self.dyn_frame, font=("Courier", 10), bg="#181c29", fg="#ffffff", insertbackground="white")
+            self.target_entry.pack(fill="x", padx=10, pady=5)
+            self.target_entry.insert(0, "http://testphp.vulnweb.com/artists.php?artist=1")
+        elif "Metasploit" in tool:
+            tk.Label(self.dyn_frame, text="أدخل إعدادات العكس (LHOST LPORT):", font=("Helvetica", 8, "bold"), fg="#00ffcc", bg="#0e111a").pack(anchor="w", padx=10, pady=5)
+            self.target_entry = tk.Entry(self.dyn_frame, font=("Courier", 10), bg="#181c29", fg="#ffffff", insertbackground="white")
+            self.target_entry.pack(fill="x", padx=10, pady=5)
+            self.target_entry.insert(0, "127.0.0.1 4444")
+        else:
+            tk.Label(self.dyn_frame, text="أدخل اسم واجهة الشبكة اللاسلكية الفعالة (مثل wlan0):", font=("Helvetica", 8, "bold"), fg="#00ffcc", bg="#0e111a").pack(anchor="w", padx=10, pady=5)
+            self.target_entry = tk.Entry(self.dyn_frame, font=("Courier", 10), bg="#181c29", fg="#ffffff", insertbackground="white")
+            self.target_entry.pack(fill="x", padx=10, pady=5)
+            self.target_entry.insert(0, "wlan0")
+
+    def log(self, msg):
+        self.log_area.insert(tk.END, msg + "\n")
+        self.log_area.see(tk.END)
+
+    def run_real_command_thread(self):
+        tool = self.tool_var.get()
+        target = self.target_entry.get().strip()
+
+        if not target:
+            messagebox.showerror("خطأ", "يجب إدخال المعاملات الصحيحة للهدف!")
+            return
+
+        self.log(f"\n[🔥] بدء التنفيذ الميداني الفعلي لأداة: {tool}")
+        self.log(f"[*] المعاملات المستخدمة: {target}")
+
+        threading.Thread(target=self.execute_in_os_shell, args=(tool, target), daemon=True).start()
+
+    def execute_in_os_shell(self, tool, target):
+        try:
+            # صياغة الأمر الفعلي الذي سيتم حقنه وتنفيذه في بيئة نظام الأندرويد/كالي لينكس
+            if "Nmap" in tool:
+                real_cmd = f"nmap -sS -T4 {target}"
+            elif "SQLmap" in tool:
+                real_cmd = f"sqlmap -u '{target}' --batch --dbs"
+            elif "Metasploit" in tool:
+                parts = target.split()
+                real_cmd = f"msfconsole -q -x 'use exploit/multi/handler; set LHOST {parts[0]}; set LPORT {parts[1]}; exploit'"
+            else:
+                real_cmd = f"airmon-ng start {target}"
+
+            self.log(f"[*] إرسال الأمر الحقيقي للصدفة (Shell): {real_cmd}")
             
-            <div class="input-group">
-                <label for="phone">رقم الهاتف</label>
-                <input type="tel" id="phone" placeholder="أدخل رقم هاتفك" required>
-            </div>
-
-            <button type="submit" class="login-btn">دخول</button>
-        </form>
-        <div id="welcome-message"></div>
-    </div>
-
-    <script>
-        const loginForm = document.getElementById('loginForm');
-        const welcomeMessage = document.getElementById('welcome-message');
-
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            # التنفيذ الفعلي عبر بيئة Termux أو محاكي النظام الداخلي بصلاحيات الجذر
+            # (يتم دمج الأمر داخل بيئة proot-distro أو su لتنفيذه بحرية تامة)
+            full_command = f"su -c '{real_cmd}'"
             
-            const username = document.getElementById('username').value;
-            const phone = document.getElementById('phone').value;
+            process = subprocess.Popen(full_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-            if(username && phone) {
-                welcomeMessage.textContent = `مرحباً بك، ${username}! تم تسجيل دخولك بنجاح.`;
-                loginForm.reset();
-            }
-        });
-    </script>
+            # قراءة المخرجات الحية مباشرة أثناء حدوثها على الجهاز
+            while True:
+                output = process.stdout.readline()
+                if output == '' and process.poll() is not None:
+                    break
+                if output:
+                    self.log(output.strip())
 
-</body>
-</html>
+            err = process.stderr.read()
+            if err:
+                self.log(f"[!] تنبيهات النظام: {err.strip()}")
+
+            self.log("[✔] انتهى التنفيذ الميداني الفعلي بنجاح تام!")
+        except Exception as e:
+            self.log(f"[X] خطأ في تشغيل الأداة فعلياً: {e}")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = KaliRealExecutionCenter(root)
+    root.mainloop()
