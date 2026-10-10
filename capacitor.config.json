@@ -1,0 +1,10 @@
+{
+  "appId": "com.alkahli.aawad",
+  "appName": "Awad",
+  "webDir": "www",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}
