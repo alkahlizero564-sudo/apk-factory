@@ -1,6 +1,6 @@
 {
-  "appId": "com.alkahli.app1",
-  "appName": "الليدر",
+  "appId": "com.alkahli.app2",
+  "appName": "الطلاب",
   "webDir": "www",
   "plugins": {
     "CapacitorHttp": {
